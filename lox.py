@@ -1,17 +1,18 @@
 import sys
 
 from scanner import Scanner
+from error_handler import ErrorHandler
 
 
 class Lox():
     def __init__(self):
-        self.had_error: bool = False
+        self.error_handler = ErrorHandler()
 
     def run_file(self, path: str):
         with open(path, "r") as file:
             data = "".join(file.readlines())
         self.run(data)
-        if self.had_error:
+        if self.error_handler.had_error:
             sys.exit(65)
 
     def run_prompt(self):
@@ -20,7 +21,7 @@ class Lox():
             if line == "":
                 break
             self.run(line)
-            self.had_error = False
+            self.error_handler.had_error = False
 
     def run(self, data: str):
         scanner = Scanner(data)
@@ -28,13 +29,6 @@ class Lox():
 
         for token in tokens:
             print(token)
-
-    def error(self, line: int, message: str):
-        self.report(line, "", message)
-
-    def report(self, line: int, where: str, message: str):
-        print("[line: " + line + "] Error " + where + ": " + message)
-        self.had_error = True
 
 
 if __name__ == "__main__":
