@@ -1,6 +1,6 @@
 print "This is a valid Lox program";
 
-// this is a comment
+/* this is a comment */
 
 fun aFunction() {
 	print "This is a function";

@@ -154,8 +154,8 @@ class Scanner:
 
     def block_comment(self):
         # this is not yet working
-        while self.peek != "*" and self.peek_next != "/"\
-                and not self.is_at_end():
+        while not self.is_at_end() \
+                and not (self.peek != "*" and self.peek_next != "/"):
             if self.peek() == '\n':
                 self.line += 1
             self.advance()
