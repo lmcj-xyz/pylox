@@ -1,7 +1,9 @@
 print "This is a valid Lox program";
 
-fun a_function() {
+// this is a comment
+
+fun aFunction() {
 	print "This is a function";
 }
 
-a_function();
+aFunction();

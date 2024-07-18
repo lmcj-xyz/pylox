@@ -6,5 +6,5 @@ class ErrorHandler:
         self.report(line, "", message)
 
     def report(self, line: int, where: str, message: str):
-        print("[line: " + line + "] Error " + where + ": " + message)
+        print(f"[line: {line}] Error {where}: {message}")
         self.had_error = True
