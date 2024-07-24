@@ -36,12 +36,15 @@ class Scanner:
     """
 
     def __init__(self, source: str):
+<<<<<<< HEAD
         """
         Args:
             source: str
                 The source code, given by the user in the session or
                 or in a file.
         """
+=======
+>>>>>>> b0d8bdc (Instantiate ErrorHandler)
         self.error_handler = ErrorHandler()
         self.source: str = source
         self.tokens: list[Token] = []
