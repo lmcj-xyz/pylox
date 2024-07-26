@@ -1,8 +1,8 @@
 from expr import Expr, Binary, Grouping, Literal, Unary
 from visitor import Visitor
-from io import StringIO
 from token import Token
 from token_type import TokenType
+from typing import List
 
 
 class ASTPrinter(Visitor):
@@ -13,11 +13,10 @@ class ASTPrinter(Visitor):
         return expr.accept(self)
 
     def visit_binary_expr(self, expr: Binary):
-        return self.parenthesize(self,
-                                 [expr.operator.lexeme, expr.left, expr.right])
+        return self.parenthesize(expr.operator.lexeme, [expr.left, expr.right])
 
     def visit_grouping_expr(self, expr: Grouping):
-        return self.parenthesize(self, [expr.expresion])
+        return self.parenthesize("group", [expr.expresion])
 
     def visit_literal_expr(self, expr: Literal):
         if expr.value is None:
@@ -25,12 +24,12 @@ class ASTPrinter(Visitor):
         return str(expr.value)
 
     def visit_unary_expr(self, expr: Unary):
-        return self.parenthesize(self, [expr.operator.lexeme, expr.right])
+        return self.parenthesize(expr.operator.lexeme, [expr.right])
 
-    def parenthesize(self, name: str, exprs: list[Expr]):
+    def parenthesize(self, name: str, exprs):
         result: str = f"({name}"
-        for e in exprs:
-            result += f" {e.accept(self)}"
+        for ex in exprs:
+            result += f" {ex.accept(self)}"
         result += ")"
         return result
 
