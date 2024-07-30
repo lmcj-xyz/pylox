@@ -2,7 +2,7 @@ from expr import Expr, Binary, Grouping, Literal, Unary
 from visitor import Visitor
 from token import Token
 from token_type import TokenType
-from typing import List
+from typing import list
 
 
 class ASTPrinter(Visitor):
