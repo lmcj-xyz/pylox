@@ -1,12 +1,23 @@
 from token import Token
 from expr import Expr, Binary, Unary, Literal, Grouping
 from token_type import TokenType
+from error_handler import ErrorHandler
 
 
 class Parser:
+    class ParseError(Exception):
+        def __init__(self, message):
+            super().__init__(message)
+
     def __init__(self, tokens: list[Token]):
         self.tokens = tokens
         self._current = 0
+
+    def parse(self) -> Expr:
+        try:
+            return self.expression()
+        except Parser.ParseError():
+            return None
 
     def expression(self) -> Expr:
         return self.equality
@@ -74,6 +85,7 @@ class Parser:
             expr: Expr = self.expression()
             self._consume(TokenType.RIGHT_PAREN, "Expect ')' after expression.")
             return Grouping(expr)
+        raise self._error(self._peek(), "Expect expression.")
 
     def _match(self, types: list[TokenType]) -> bool:
         for t in types:
@@ -105,3 +117,34 @@ class Parser:
 
     def _previous(self):
         return self.tokens[self._current - 1]
+
+    def _error(token: Token, message: str) -> ParseError:
+        ErrorHandler().error(token, message)
+        return Parser.ParseError()
+
+    def synchronize(self):
+        self._advance()
+
+        while not self._is_at_end():
+            if self._previous().type == TokenType.SEMICOLON:
+                return
+
+            match self._peek().type:
+                case TokenType.CLASS:
+                    pass
+                case TokenType.FUN:
+                    pass
+                case TokenType.VAR:
+                    pass
+                case TokenType.FOR:
+                    pass
+                case TokenType.IF:
+                    pass
+                case TokenType.WHILE:
+                    pass
+                case TokenType.PRINT:
+                    pass
+                case TokenType.RETURN:
+                    pass
+
+            self._advance()

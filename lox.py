@@ -1,7 +1,9 @@
 import sys
-
 from scanner import Scanner
 from error_handler import ErrorHandler
+from parser import Parser
+from expr import Expr
+from ast_printer import ASTPrinter
 
 
 class Lox():
@@ -17,7 +19,7 @@ class Lox():
 
     def run_prompt(self):
         while True:
-            line = input("> ")
+            line = input("pylox> ")
             if line == "":
                 break
             self.run(line)
@@ -27,8 +29,17 @@ class Lox():
         scanner = Scanner(data)
         tokens: list = scanner.scan_tokens()
 
-        for token in tokens:
-            print(token)
+        #for token in tokens:
+        #    print(token)
+
+        parser: Parser = Parser(tokens)
+        expression: Expr = parser.parse()
+
+        if self.error_handler.had_error:
+            return
+
+        printer = ASTPrinter()
+        print(printer.print(expression))
 
 
 if __name__ == "__main__":
