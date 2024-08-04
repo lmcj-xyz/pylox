@@ -38,8 +38,7 @@ class Lox():
         if self.error_handler.had_error:
             return
 
-        printer = ASTPrinter()
-        print(printer.print(expression))
+        print(ASTPrinter().print(expression))
 
 
 if __name__ == "__main__":
